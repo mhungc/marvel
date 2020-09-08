@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Marvel.World.DAL;
+using Marvel.World.Interfaces;
+using Marvel.World.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -25,6 +28,20 @@ namespace Marvel.World
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddHttpClient("heroesService", h =>
+            {
+                h.BaseAddress = new Uri(Configuration["Services:Heroes"]);
+            });
+
+            services.AddHttpClient("villainsService", h =>
+            {
+                h.BaseAddress = new Uri(Configuration["Services:Villains"]);
+            });
+
+            services.AddSingleton<IHeroesServices, HeroesServices>();
+            services.AddSingleton<IVillainsServices, VillainsServices>();
+            services.AddSingleton<IWarServices, WarServices>();
             services.AddControllers();
         }
 
@@ -35,8 +52,6 @@ namespace Marvel.World
             {
                 app.UseDeveloperExceptionPage();
             }
-
-            app.UseHttpsRedirection();
 
             app.UseRouting();
 
