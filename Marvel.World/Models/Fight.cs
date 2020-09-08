@@ -7,8 +7,11 @@ namespace Marvel.World.Models
 {
     public class War
     {
-        private Hero _hero { get; set; }
-        private Villain _villain { get; set; }
+        private Hero _hero;
+        public Hero Hero { get => _hero; private set => _hero = value; }
+
+        private Villain _villain;
+        public Villain Villain { get => _villain; private set => _villain = value; }
 
         private FightResult _fightResult;
         public FightResult FightResult { get => _fightResult; private set => _fightResult = value; }
